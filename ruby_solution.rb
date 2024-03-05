@@ -1,8 +1,7 @@
-fileName = "tryTask.txt"
+fileName = "yourFile.txt"
 
 content = Array.new
-# Open the file in read mode/Users/tkr/Praktikum/
-File.open("C:/Users/Alex/Downloads/" + fileName, 'r') do |file|
+File.open("/your/path" + fileName, 'r') do |file|
   # Read the entire file content
   size = file.readline().split(" ")
   NUM_OF_ROWS, NUM_OF_COLUMNS = size[0].to_i, size[1].to_i
