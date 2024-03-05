@@ -23,7 +23,9 @@ moves one space to the right in 1 second and
 right in another 3 seconds and moves back to the upper
 floor. A path only through the upper floor
 would take at least 13 seconds.
-Task \n
+
+Task
+
 Help Ron and write a program that calculates a path for every
 two squares A and B in the school of magic to determine a
 can determine a path on which Ron can get from A to
@@ -38,7 +40,8 @@ Apply your program to at least all the examples
 that you find on the BWINF website and document the results.
 document the results.
 
-Aufgabestellung \n
+Aufgabestellung
+
 Die Zauberschule Bugwarts hat zwei Stockwerke.
 Die Stockwerke liegen genau übereinander. Beide
 sind in Felder eingeteilt, und es gibt Wände zwischen
@@ -58,7 +61,9 @@ geht dort in 1 Sekunde ein Feld nach rechts und
 wechselt in weiteren 3 Sekunden zurück ins obere
 Stockwerk. Ein Weg nur durch das obere Stockwerk
 würde mindestens 13 Sekunden dauern.
+
 Aufgabe
+
 Hilf Ron und schreibe ein Programm, das für jeweils
 zwei Felder A und B in der Zauberschule einen
 Weg bestimmen kann, auf dem Ron so schnell wie
