@@ -1,16 +1,12 @@
 #Dijkstra solution
-import sys, time, shutil, numpy
-fileName = "tryTask"
-fileRoute = r"C:/Users/Alex/Downloads/"
-
-#https://bwinf.de/fileadmin/bundeswettbewerb/42/BwInf_42_Aufgaben_WEB.pdf
-#https://bwinf.de/bundeswettbewerb/42/1/
+import sys, shutil, numpy
+fileName = "yourFileName"
+fileRoute = r"/your/path"
 
 def main():
-    start_time = time.time()
     #input in programm
     #y = n, x = m
-    file = open(r"C:/Users/Alex/Downloads/" + fileName + ".txt")
+    file = open(r"/your/path" + fileName + ".txt")
     size = file.readline().split(" ")
     n, m =  int(size[0]), int(size[1])
     content = file.read().split("\n")
@@ -108,18 +104,9 @@ def main():
                     if first_field_withSymbols[i][j] or first_field_withSymbols[i][j] == 'A' or first_field_withSymbols[i][j] == 'B':
                         field[currentCounter + (n * m)].append(currentCounter)
             currentCounter += 1
-                   
-
-    #print(first_field)
-    #print(second_field)
             
     routes = {}
-
-    # minimum function for dictionary,
-    # it will return the key who have the smallest value
-    # 101 x 101 8,67 s   Elapsed time:  4.627948999404907
-    # 201 x 81 17.08 s   Elapsed time:  11.197876214981079
-    # 
+    
     def minimum(dict):
         min_key = list(dict.keys())[0]
         for i in list(dict.keys())[1:]:
@@ -147,9 +134,6 @@ def main():
                             #check fields that are on the same layer
                             #for 2 = index + (n * m)
                             #for 1 = index
-                            # if explore >= n * m:
-                            #     moveIndex = connectionIndex + (n * m)
-                            # else: 
 
                             if (connectionIndex <= n * m and explore <= n * m) or (connectionIndex >= n * m and explore >= n * m):
                                 if connectionIndex in unexplored.keys():
@@ -225,7 +209,5 @@ def main():
     end_time = time.time()
     print("The smallest time needed from A(" + str(numberOfA) + ") to B(" + str(numberOfB) + ") = " + str(fastest_solution))
     print("route: " + str(routes[numberOfB]))
-    elapsed_time = end_time - start_time
     illustrationsOfTheRoute(routes[numberOfB], content, fileName, fileRoute)
-    print("Elapsed time: ", elapsed_time)
 main()
