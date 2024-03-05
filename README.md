@@ -3,6 +3,7 @@
 #https://bwinf.de/bundeswettbewerb/42/1/
 
 Task Explanation
+
 Bugwarts Magic School has two floors.
 The floors are exactly on top of each other. Both
 are divided into squares and there are walls between
@@ -22,7 +23,7 @@ moves one space to the right in 1 second and
 right in another 3 seconds and moves back to the upper
 floor. A path only through the upper floor
 would take at least 13 seconds.
-Task
+Task \n
 Help Ron and write a program that calculates a path for every
 two squares A and B in the school of magic to determine a
 can determine a path on which Ron can get from A to
@@ -37,7 +38,7 @@ Apply your program to at least all the examples
 that you find on the BWINF website and document the results.
 document the results.
 
-Aufgabestellung
+Aufgabestellung \n
 Die Zauberschule Bugwarts hat zwei Stockwerke.
 Die Stockwerke liegen genau übereinander. Beide
 sind in Felder eingeteilt, und es gibt Wände zwischen
