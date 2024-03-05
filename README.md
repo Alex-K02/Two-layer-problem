@@ -37,9 +37,6 @@ Apply your program to at least all the examples
 that you find on the BWINF website and document the results.
 document the results.
 
-Translated with DeepL.com (free version)
-
-
 Aufgabestellung
 Die Zauberschule Bugwarts hat zwei Stockwerke.
 Die Stockwerke liegen genau übereinander. Beide
