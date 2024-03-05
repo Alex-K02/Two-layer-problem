@@ -1,6 +1,6 @@
 #Dijkstra solution
 import sys, time
-fileName = "tryTask.txt"
+fileName = "yourFileName.txt"
 
 #https://bwinf.de/fileadmin/bundeswettbewerb/42/BwInf_42_Aufgaben_WEB.pdf
 #https://bwinf.de/bundeswettbewerb/42/1/
@@ -9,7 +9,7 @@ def main():
     start_time = time.time()
     #input in programm
     #y = n, x = m
-    file = open(r"C:/Users/Alex/Downloads/" + fileName)
+    file = open(r"/your/path" + fileName)
     size = file.readline().split(" ")
     n, m =  int(size[0]), int(size[1])
     content = file.read().split("\n")
@@ -101,12 +101,7 @@ def main():
             currentCounter += 1
             
     routes = {}
-
-    # minimum function for dictionary,
-    # it will return the key who have the smallest value
-    # 101 x 101 20.19 s   Elapsed time:  13.819849252700806
-    # 201 x 81  45,86 s   Elapsed time:  34.96958565711975
-    # 
+    
     def minimum(dict):
         min_key = list(dict.keys())[0]
         for i in list(dict.keys())[1:]:
