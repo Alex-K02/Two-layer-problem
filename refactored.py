@@ -1,9 +1,10 @@
 #Dijkstra solution
 import sys, time
 
+
 def print_the_results(number_of_A, number_of_B, elapsed_time, fastest_solution, final_route):
     print("The smallest time needed from A(" + str(number_of_A) + ") to B(" + str(number_of_B) + ") = " + str(fastest_solution))
-    print("route: " + str(final_route))
+    print("Route form A to B: " + str(final_route))
     print("Elapsed time: ", elapsed_time)
 
 
@@ -20,21 +21,30 @@ def split_originall_field(file_content, num_rows):
     return first_field_withSymbols, second_field_withSymbols
 
 
-def define_field(num_rows, num_columns, first_field_withSymbols, second_field_withSymbols):
+def define_connections(num_rows, num_columns, first_field_withSymbols, second_field_withSymbols):
     field_size = num_rows * num_columns
     connections = [[] for i in range(0, 2 * field_size)]
     currentCounter = 0
     for i in range(0, num_rows):
-        for j in range(0, num_columns):
-            if first_field_withSymbols[i].find('A') != -1:
+        #for both fields
+        if first_field_withSymbols[i].find('A') != -1 or second_field_withSymbols[i].find('A') != -1:
                 if not coordinates_A:
-                    coordinates_A.append(first_field_withSymbols[i].find('A'))
-                    coordinates_A.append(i)
-            if first_field_withSymbols[i].find('B') != -1:
-                if not coordinates_B:
+                    if first_field_withSymbols[i].find('A') != -1:
+                        coordinates_A.append(first_field_withSymbols[i].find('A'))
+                        coordinates_A.append(i)
+                    else:
+                        coordinates_A.append(second_field_withSymbols[i].find('A'))
+                        coordinates_A.append(i + num_rows)
+        if first_field_withSymbols[i].find('B') != -1 or second_field_withSymbols[i].find('B') != -1:
+            if not coordinates_B:
+                if first_field_withSymbols[i].find('B') != -1:
                     coordinates_B.append(first_field_withSymbols[i].find('B'))
                     coordinates_B.append(i)
-            
+                else: 
+                    coordinates_B.append(second_field_withSymbols[i].find('B'))
+                    coordinates_B.append(i + num_rows)
+
+        for j in range(0, num_columns):
             if first_field_withSymbols[i][j] == '.' or first_field_withSymbols[i][j] == 'A' or first_field_withSymbols[i][j] == 'B':
                 #left
                 if first_field_withSymbols[i][j - 1] == '.' or first_field_withSymbols[i][j - 1] == 'A' or first_field_withSymbols[i][j - 1] == 'B':
@@ -59,22 +69,22 @@ def define_field(num_rows, num_columns, first_field_withSymbols, second_field_wi
                 if second_field_withSymbols[i][j] == '.':
                     connections[currentCounter].append(currentCounter + (field_size)) 
             #for second field
-            if second_field_withSymbols[i][j] == '.':
+            if second_field_withSymbols[i][j] == '.' or second_field_withSymbols[i][j] == 'A' or second_field_withSymbols[i][j] == 'B':
                 #left
-                if second_field_withSymbols[i][j - 1] == '.':
+                if second_field_withSymbols[i][j - 1] == '.' or second_field_withSymbols[i][j-1] == 'A' or second_field_withSymbols[i][j-1] == 'B':
                     connections[currentCounter + (field_size)].append(currentCounter - 1 + (field_size))
                 
                 #right
-                if j + 1 < len(second_field_withSymbols[i]) and second_field_withSymbols[i][j + 1] == '.':
+                if j + 1 < len(second_field_withSymbols[i]) and second_field_withSymbols[i][j + 1] == '.' or second_field_withSymbols[i][j + 1] == 'A' or second_field_withSymbols[i][j + 1] == 'B':
                     connections[currentCounter + (field_size)].append(currentCounter + 1 + (field_size))
                 
                 #top
-                if second_field_withSymbols[i - 1][j] == '.':
+                if second_field_withSymbols[i - 1][j] == '.' or second_field_withSymbols[i - 1][j] == 'A' or second_field_withSymbols[i - 1][j] == 'B':
                     ind = (num_columns * (i - 1)) + j
                     connections[currentCounter + (field_size)].append(ind + (field_size))
                 
                 #bottom
-                if i + 1 < len(second_field_withSymbols) and second_field_withSymbols[i + 1][j] == '.':
+                if i + 1 < len(second_field_withSymbols) and second_field_withSymbols[i + 1][j] == '.' or second_field_withSymbols[i + 1][j] == 'A' or second_field_withSymbols[i + 1][j] == 'B':
                     ind = (num_columns * (i + 1)) + j 
                     connections[currentCounter + (field_size)].append(ind + (field_size))
                     
@@ -84,7 +94,8 @@ def define_field(num_rows, num_columns, first_field_withSymbols, second_field_wi
             currentCounter += 1
     return connections
 
-
+# minimum function for dictionary,
+# it will return the key who have the smallest value
 def minimum(dict):
     min_key = list(dict.keys())[0]
     for i in list(dict.keys())[1:]:
@@ -140,9 +151,9 @@ def dijkstra(connections, start, end, all_vertexes, num_columns, field_size):
 
             del unexplored[explore]
         #remove node that was checked/explored
-    return(unexplored[explore], routes)
+    return(unexplored[explore], routes[end])
 
-
+#ASSIGNMENT
 #https://bwinf.de/fileadmin/bundeswettbewerb/42/BwInf_42_Aufgaben_WEB.pdf
 #https://bwinf.de/bundeswettbewerb/42/1/
 
@@ -170,7 +181,7 @@ def main():
     second_field_withSymbols = []
     first_field_withSymbols, second_field_withSymbols = split_originall_field(file_content, NUM_ROWS)          
     
-    connections = define_field(NUM_ROWS, NUM_COLUMNS, first_field_withSymbols, second_field_withSymbols)
+    connections = define_connections(NUM_ROWS, NUM_COLUMNS, first_field_withSymbols, second_field_withSymbols)
 
     all_vertexes = {}
     #for both fields
@@ -178,17 +189,11 @@ def main():
         #all possible vertexes
         all_vertexes.setdefault(i, sys.maxsize)
 
-    # minimum function for dictionary,
-    # it will return the key who have the smallest value
-    # 101 x 101 20.19 s   Elapsed time:  13.819849252700806
-    # 201 x 81  45,86 s   Elapsed time:  34.96958565711975
-    # 
-    
     index_of_A = (NUM_COLUMNS * coordinates_A[1]) + coordinates_A[0]
     index_of_B = (NUM_COLUMNS * coordinates_B[1]) + coordinates_B[0]
-    fastest_solution, routes = dijkstra(connections, index_of_A, index_of_B, all_vertexes, NUM_COLUMNS, NUM_ROWS * NUM_COLUMNS)
+    fastest_solution, route = dijkstra(connections, index_of_A, index_of_B, all_vertexes, NUM_COLUMNS, NUM_ROWS * NUM_COLUMNS)
     end_time = time.time()
     elapsed_time = end_time - start_time
-    print_the_results(index_of_A, index_of_B, elapsed_time, fastest_solution, routes[index_of_B])
+    print_the_results(index_of_A, index_of_B, elapsed_time, fastest_solution, route)
     
 main()
