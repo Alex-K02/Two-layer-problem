@@ -24,74 +24,74 @@ def split_originall_field(file_content, num_rows):
 def define_connections(num_rows, num_columns, first_field_withSymbols, second_field_withSymbols):
     field_size = num_rows * num_columns
     connections = [[] for i in range(0, 2 * field_size)]
-    currentCounter = 0
-    for i in range(0, num_rows):
+    global_field_index = 0
+    for row_index in range(0, num_rows):
         #for both fields
-        if first_field_withSymbols[i].find('A') != -1 or second_field_withSymbols[i].find('A') != -1:
+        if first_field_withSymbols[row_index].find('A') != -1 or second_field_withSymbols[row_index].find('A') != -1:
                 if not coordinates_A:
-                    if first_field_withSymbols[i].find('A') != -1:
-                        coordinates_A.append(first_field_withSymbols[i].find('A'))
-                        coordinates_A.append(i)
+                    if first_field_withSymbols[row_index].find('A') != -1:
+                        coordinates_A.append(first_field_withSymbols[row_index].find('A'))
+                        coordinates_A.append(row_index)
                     else:
-                        coordinates_A.append(second_field_withSymbols[i].find('A'))
-                        coordinates_A.append(i + num_rows)
-        if first_field_withSymbols[i].find('B') != -1 or second_field_withSymbols[i].find('B') != -1:
+                        coordinates_A.append(second_field_withSymbols[row_index].find('A'))
+                        coordinates_A.append(row_index + num_rows)
+        if first_field_withSymbols[row_index].find('B') != -1 or second_field_withSymbols[row_index].find('B') != -1:
             if not coordinates_B:
-                if first_field_withSymbols[i].find('B') != -1:
-                    coordinates_B.append(first_field_withSymbols[i].find('B'))
-                    coordinates_B.append(i)
+                if first_field_withSymbols[row_index].find('B') != -1:
+                    coordinates_B.append(first_field_withSymbols[row_index].find('B'))
+                    coordinates_B.append(row_index)
                 else: 
-                    coordinates_B.append(second_field_withSymbols[i].find('B'))
-                    coordinates_B.append(i + num_rows)
+                    coordinates_B.append(second_field_withSymbols[row_index].find('B'))
+                    coordinates_B.append(row_index + num_rows)
 
-        for j in range(0, num_columns):
-            if first_field_withSymbols[i][j] == '.' or first_field_withSymbols[i][j] == 'A' or first_field_withSymbols[i][j] == 'B':
+        for column_index in range(0, num_columns):
+            if first_field_withSymbols[row_index][column_index] == '.' or first_field_withSymbols[row_index][column_index] == 'A' or first_field_withSymbols[row_index][column_index] == 'B':
                 #left
-                if first_field_withSymbols[i][j - 1] == '.' or first_field_withSymbols[i][j - 1] == 'A' or first_field_withSymbols[i][j - 1] == 'B':
-                    #ind = currentCounter - 1
-                    connections[currentCounter].append(currentCounter - 1)
+                if first_field_withSymbols[row_index][column_index - 1] == '.' or first_field_withSymbols[row_index][column_index - 1] == 'A' or first_field_withSymbols[row_index][column_index - 1] == 'B':
+                    #ind = global_field_index - 1
+                    connections[global_field_index].append(global_field_index - 1)
                 #right
-                if j + 1 < len(first_field_withSymbols[i]) and (first_field_withSymbols[i][j + 1] == '.' or first_field_withSymbols[i][j + 1] == 'A' or first_field_withSymbols[i][j + 1] == 'B'):
-                    #ind = currentCounter + 1
-                    connections[currentCounter].append(currentCounter + 1)
+                if column_index + 1 < len(first_field_withSymbols[row_index]) and (first_field_withSymbols[row_index][column_index + 1] == '.' or first_field_withSymbols[row_index][column_index + 1] == 'A' or first_field_withSymbols[row_index][column_index + 1] == 'B'):
+                    #ind = global_field_index + 1
+                    connections[global_field_index].append(global_field_index + 1)
                 
                 #top
-                if first_field_withSymbols[i - 1][j] == '.' or first_field_withSymbols[i - 1][j] == 'A' or first_field_withSymbols[i - 1][j] == 'B':
-                    ind = (num_columns * (i - 1)) + j
-                    connections[currentCounter].append(ind) 
+                if first_field_withSymbols[row_index - 1][column_index] == '.' or first_field_withSymbols[row_index - 1][column_index] == 'A' or first_field_withSymbols[row_index - 1][column_index] == 'B':
+                    ind = (num_columns * (row_index - 1)) + column_index
+                    connections[global_field_index].append(ind) 
                 
                 #bottom
-                if first_field_withSymbols[i + 1][j] == '.' or first_field_withSymbols[i + 1][j] == 'A' or first_field_withSymbols[i + 1][j] == 'B':
-                    ind = (num_columns * (i + 1)) + j
-                    connections[currentCounter].append(ind) 
+                if first_field_withSymbols[row_index + 1][column_index] == '.' or first_field_withSymbols[row_index + 1][column_index] == 'A' or first_field_withSymbols[row_index + 1][column_index] == 'B':
+                    ind = (num_columns * (row_index + 1)) + column_index
+                    connections[global_field_index].append(ind) 
                     
                 #teleport
-                if second_field_withSymbols[i][j] == '.':
-                    connections[currentCounter].append(currentCounter + (field_size)) 
+                if second_field_withSymbols[row_index][column_index] == '.':
+                    connections[global_field_index].append(global_field_index + (field_size)) 
             #for second field
-            if second_field_withSymbols[i][j] == '.' or second_field_withSymbols[i][j] == 'A' or second_field_withSymbols[i][j] == 'B':
+            if second_field_withSymbols[row_index][column_index] == '.' or second_field_withSymbols[row_index][column_index] == 'A' or second_field_withSymbols[row_index][column_index] == 'B':
                 #left
-                if second_field_withSymbols[i][j - 1] == '.' or second_field_withSymbols[i][j-1] == 'A' or second_field_withSymbols[i][j-1] == 'B':
-                    connections[currentCounter + (field_size)].append(currentCounter - 1 + (field_size))
+                if second_field_withSymbols[row_index][column_index - 1] == '.' or second_field_withSymbols[row_index][column_index - 1] == 'A' or second_field_withSymbols[row_index][column_index-1] == 'B':
+                    connections[global_field_index + (field_size)].append(global_field_index - 1 + (field_size))
                 
                 #right
-                if j + 1 < len(second_field_withSymbols[i]) and second_field_withSymbols[i][j + 1] == '.' or second_field_withSymbols[i][j + 1] == 'A' or second_field_withSymbols[i][j + 1] == 'B':
-                    connections[currentCounter + (field_size)].append(currentCounter + 1 + (field_size))
+                if column_index + 1 < len(second_field_withSymbols[row_index]) and second_field_withSymbols[row_index][column_index + 1] == '.' or second_field_withSymbols[row_index][column_index + 1] == 'A' or second_field_withSymbols[row_index][column_index + 1] == 'B':
+                    connections[global_field_index + (field_size)].append(global_field_index + 1 + (field_size))
                 
                 #top
-                if second_field_withSymbols[i - 1][j] == '.' or second_field_withSymbols[i - 1][j] == 'A' or second_field_withSymbols[i - 1][j] == 'B':
-                    ind = (num_columns * (i - 1)) + j
-                    connections[currentCounter + (field_size)].append(ind + (field_size))
+                if second_field_withSymbols[row_index - 1][column_index] == '.' or second_field_withSymbols[row_index - 1][column_index] == 'A' or second_field_withSymbols[row_index - 1][column_index] == 'B':
+                    ind = (num_columns * (row_index - 1)) + column_index
+                    connections[global_field_index + (field_size)].append(ind + (field_size))
                 
                 #bottom
-                if i + 1 < len(second_field_withSymbols) and second_field_withSymbols[i + 1][j] == '.' or second_field_withSymbols[i + 1][j] == 'A' or second_field_withSymbols[i + 1][j] == 'B':
-                    ind = (num_columns * (i + 1)) + j 
-                    connections[currentCounter + (field_size)].append(ind + (field_size))
+                if row_index + 1 < len(second_field_withSymbols) and second_field_withSymbols[row_index + 1][column_index] == '.' or second_field_withSymbols[row_index + 1][column_index] == 'A' or second_field_withSymbols[row_index + 1][column_index] == 'B':
+                    ind = (num_columns * (row_index + 1)) + column_index 
+                    connections[global_field_index + (field_size)].append(ind + (field_size))
                     
                 #teleport
-                if first_field_withSymbols[i][j] == '.' or first_field_withSymbols[i][j] == 'A' or first_field_withSymbols[i][j] == 'B':
-                    connections[currentCounter + (field_size)].append(currentCounter) 
-            currentCounter += 1
+                if first_field_withSymbols[row_index][column_index] == '.' or first_field_withSymbols[row_index][column_index] == 'A' or first_field_withSymbols[row_index][column_index] == 'B':
+                    connections[global_field_index + (field_size)].append(global_field_index) 
+            global_field_index += 1
     return connections
 
 # minimum function for dictionary,
